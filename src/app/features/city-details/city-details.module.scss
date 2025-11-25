@@ -1,0 +1,28 @@
+@use '../../styles/variables';
+
+.image-container {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+
+  img {
+    width: 1400px;
+    height: auto;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+    width: 100%;
+
+    &.is-loaded {
+        opacity: 1;
+    }
+  }
+}
+
+.details-container {
+    padding: variables.$content-padding;
+}

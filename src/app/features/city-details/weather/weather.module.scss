@@ -1,0 +1,14 @@
+.weather-container {
+    min-height: 364px;
+    height: 390px;
+    display: flex;
+    flex-direction: column;
+
+    .loading,
+    .error {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

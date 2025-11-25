@@ -1,0 +1,17 @@
+@use '../../styles/variables';
+
+.main {
+    flex: 1;
+}
+
+.footer {
+    height: 48px;
+    padding: variables.$padding;
+    display: flex;
+    justify-content: end;
+    border-top: 1px solid variables.$border-color;
+
+    p {
+        margin: 0;
+    }
+}
