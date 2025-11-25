@@ -300,6 +300,7 @@ const CreateModalElement = ({ isOpen, onClose }: CreateModalProps) => {
 
                 <Button
                   type="submit"
+                  name="submit"
                   variant="contained"
                   disabled={isSubmitting}
                 >

@@ -1,9 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from '@testing-library/react';
 
 import { Drawer } from './drawer';
-import { makeStore, TestStore } from '../../../tests/mocks/redux/store';
 import { TestWrapper } from '../../../tests/mocks/ui/render';
+import { makeStore, TestStore } from '../../../tests/mocks/redux/store';
 import { toggleDrawer } from 'src/app/store';
 
 const mockNavigate = jest.fn();
@@ -12,80 +18,68 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-describe('Drawer component', () => {
+describe('Drawer', () => {
   let store: TestStore;
 
-  const renderDrawer = () => {
-    store = makeStore();
-
-    return render(
+  const renderDrawer = () =>
+    render(
       <TestWrapper store={store}>
         <Drawer />
       </TestWrapper>
     );
-  };
 
-  it('renders pages from the store', () => {
+  beforeEach(() => {
+    store = makeStore();
+    mockNavigate.mockReset();
+  });
+
+  it('renders drawer as closed by default', () => {
     renderDrawer();
 
-    expect(screen.getByText('Cities')).toBeInTheDocument();
+    expect(screen.queryByText('Cities')).not.toBeInTheDocument();
   });
 
-  it('drawer visibility is controlled by Redux state', () => {
-    const store = makeStore();
+  it('shows drawer when UI state changes', async () => {
+    renderDrawer();
 
-    const { rerender } = render(
-      <TestWrapper store={store}>
-        <Drawer />
-      </TestWrapper>
-    );
+    act(() => {
+      store.dispatch(toggleDrawer());
+    });
 
-    expect(store.getState().ui.isDrawerOpen).toBe(false);
-
-    store.dispatch(toggleDrawer());
-
-    rerender(
-      <TestWrapper store={store}>
-        <Drawer />
-      </TestWrapper>
-    );
-
-    expect(store.getState().ui.isDrawerOpen).toBe(true);
+    await waitFor(() => expect(screen.getByText('Cities')).toBeInTheDocument());
   });
 
-  it('drawer visibility is controlled by Redux state', () => {
-    const store = makeStore();
+  it('navigates when clicking on an item', async () => {
+    renderDrawer();
 
-    const { rerender } = render(
-      <TestWrapper store={store}>
-        <Drawer />
-      </TestWrapper>
-    );
+    act(() => {
+      store.dispatch(toggleDrawer());
+    });
 
-    expect(screen.queryByRole('presentation')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Cities')).toBeInTheDocument();
+    });
 
-    store.dispatch(toggleDrawer());
+    const button = await screen.findByText('Cities', {}, { timeout: 1000 });
+    fireEvent.click(button);
 
-    rerender(
-      <TestWrapper store={store}>
-        <Drawer />
-      </TestWrapper>
-    );
-
-    expect(screen.getByRole('presentation')).toBeInTheDocument();
+    expect(mockNavigate).toHaveBeenCalledWith('/cities');
   });
 
-  //   it('clicking a page item navigates to its route', () => {
-  //     renderDrawer();
+  it('closes drawer when clicking on an item', async () => {
+    renderDrawer();
 
-  //     store.dispatch(toggleDrawer());
-  //     const citiesButton = screen.getByText('Cities');
+    act(() => {
+      store.dispatch(toggleDrawer());
+    });
 
-  //     fireEvent(
-  //       citiesButton,
-  //       new MouseEvent('click', { bubbles: true, cancelable: true })
-  //     );
+    await waitFor(() => expect(screen.getByText('Cities')).toBeInTheDocument());
 
-  //     expect(mockNavigate).toHaveBeenCalledWith('/cities');
-  //   });
+    const button = await screen.findByText('Cities', {}, { timeout: 1000 });
+    fireEvent.click(button);
+
+    await waitFor(() =>
+      expect(screen.queryByText('Cities')).not.toBeInTheDocument()
+    );
+  });
 });

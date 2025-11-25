@@ -5,7 +5,7 @@ import { Layout } from './layout';
 import { makeStore, TestStore } from '../../tests/mocks/redux/store';
 import { TestWrapper } from '../../tests/mocks/ui/render';
 
-describe('Layout component', () => {
+describe('Layout', () => {
   let store: TestStore;
 
   const renderLayout = () => {
