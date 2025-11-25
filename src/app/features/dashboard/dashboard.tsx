@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector, getCities } from 'src/app/store';
 import { Card } from './card';
+import { routes } from 'src/app/config';
 
 import classes from './dashboard.module.scss';
 
@@ -12,7 +13,7 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   const onCitySelect = (cityId: string) => {
-    navigate(`/cities/${cityId}`);
+    navigate(`${routes.cities}/${cityId}`);
   };
 
   return (

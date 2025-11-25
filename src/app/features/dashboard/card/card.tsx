@@ -34,7 +34,7 @@ const CardElement = ({
 
   return (
     <CardComponent sx={{ maxWidth: 345, minWidth: 345 }}>
-      <CardActionArea sx={{ height: 275, minHeight: 275 }} onClick={onClick}>
+      <CardActionArea onClick={onClick}>
         <CardMedia
           component="img"
           height="140"
@@ -42,7 +42,7 @@ const CardElement = ({
           alt={imageAlt}
           sx={{ minHeight: 140 }}
         />
-        <CardContent>
+        <CardContent sx={{ height: 135, minHeight: 135 }}>
           <Typography gutterBottom variant="h5" component="h2">
             {header}
           </Typography>

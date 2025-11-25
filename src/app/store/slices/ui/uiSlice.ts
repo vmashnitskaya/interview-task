@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { Page } from '../../../types';
+import { pages } from 'src/app/config';
 
 interface UiState {
   isDrawerOpen: boolean;
@@ -9,14 +10,7 @@ interface UiState {
 
 const initialState: UiState = {
   isDrawerOpen: false,
-  pages: [
-    {
-      id: 'cities',
-      title: 'Cities',
-      path: '/cities',
-      icon: 'cities',
-    },
-  ],
+  pages,
 };
 
 export const uiSlice = createSlice({

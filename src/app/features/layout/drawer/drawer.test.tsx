@@ -11,6 +11,7 @@ import { Drawer } from './drawer';
 import { TestWrapper } from '../../../tests/mocks/ui/render';
 import { makeStore, TestStore } from '../../../tests/mocks/redux/store';
 import { toggleDrawer } from 'src/app/store';
+import { routes } from 'src/app/config';
 
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -63,7 +64,7 @@ describe('Drawer', () => {
     const button = await screen.findByText('Cities', {}, { timeout: 1000 });
     fireEvent.click(button);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/cities');
+    expect(mockNavigate).toHaveBeenCalledWith(routes.cities);
   });
 
   it('closes drawer when clicking on an item', async () => {

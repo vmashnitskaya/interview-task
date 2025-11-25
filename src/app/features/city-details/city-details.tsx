@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import {
   getSelectedCity,
@@ -13,6 +13,7 @@ import { Weather } from './weather';
 import classes from './city-details.module.scss';
 
 export const CityDetails = () => {
+  const { pathname } = useLocation();
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const city = useAppSelector(getSelectedCity);
@@ -23,6 +24,10 @@ export const CityDetails = () => {
   useEffect(() => {
     dispatch(selectCity(id || ''));
   }, [id, dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     city && (

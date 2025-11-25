@@ -1,8 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+
 import { CreateCity } from '../create-city';
 import { TestWrapper } from 'src/app/tests/mocks/ui/render';
 import { makeStore, TestStore } from 'src/app/tests/mocks/redux/store';
+import { routes } from 'src/app/config';
 
 const mockUseLocation = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -33,14 +35,14 @@ describe('CreateCity', () => {
   });
 
   it('renders Add City button when pathname is /cities', () => {
-    mockUseLocation.mockReturnValue({ pathname: '/cities' });
+    mockUseLocation.mockReturnValue({ pathname: routes.cities });
     renderComponent();
 
     expect(screen.getByText('Add City')).toBeInTheDocument();
   });
 
   it('opens modal when Add City button is clicked', async () => {
-    mockUseLocation.mockReturnValue({ pathname: '/cities' });
+    mockUseLocation.mockReturnValue({ pathname: routes.cities });
     renderComponent();
 
     const button = screen.getByText('Add City');
@@ -54,7 +56,7 @@ describe('CreateCity', () => {
   });
 
   it('closes modal after outside click', async () => {
-    mockUseLocation.mockReturnValue({ pathname: '/cities' });
+    mockUseLocation.mockReturnValue({ pathname: routes.cities });
     renderComponent();
 
     const addButton = screen.getByText('Add City');

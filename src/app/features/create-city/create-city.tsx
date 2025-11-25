@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 
 import { CreateModal } from './create-modal';
 import { useLocation } from 'react-router-dom';
+import { routes } from 'src/app/config';
 
 export const CreateCity = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ export const CreateCity = () => {
   }, []);
 
   return (
-    location.pathname === '/cities' && (
+    location.pathname === routes.cities && (
       <div>
         <Button
           color="inherit"
